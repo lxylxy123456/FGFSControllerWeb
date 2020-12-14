@@ -1,6 +1,6 @@
 from flask import Flask, request, send_from_directory, redirect
 from flask_sockets import Sockets
-import re, jinja2, json, random, os, sys, struct
+import re, jinja2, json, random, os, sys, struct, argparse
 from urllib import parse
 from socket import *
 app = Flask(__name__)
@@ -74,27 +74,26 @@ home_template_name = os.path.join(DIR, 'f.html')
 home_template = jinja2.Template(open(home_template_name).read())
 
 if __name__ == '__main__' :
-	if len(sys.argv) > 1 :
-		host = sys.argv[1]
-	else :
-		host = '127.0.0.1'
-	if len(sys.argv) > 2 :
-		port = int(sys.argv[2])
-	else :
-		port = 1234
-	if not 'ws':
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--host', default='0.0.0.0')
+	parser.add_argument('--port', type=int, default=23456)
+	parser.add_argument('--ws', action='store_true')
+	args = parser.parse_args()
+	keyfile = os.path.join(DIR, 'ssl.key')
+	certfile = os.path.join(DIR, 'ssl.cert')
+	if args.ws:
 		from gevent import pywsgi
 		from geventwebsocket.handler import WebSocketHandler
-		server = pywsgi.WSGIServer(('', 23456), app,
+		server = pywsgi.WSGIServer(('', args.port), app,
 									handler_class=WebSocketHandler,
-									keyfile=os.path.join(DIR, 'ssl.key'),
-									certfile=os.path.join(DIR, 'ssl.cert'))
+									keyfile=keyfile, certfile=certfile)
 		server.serve_forever()
 	else:
-		app.run(host=host, port=port, debug=True, threaded=True,
-				ssl_context=(os.path.join(DIR, 'ssl.cert'),
-							os.path.join(DIR, 'ssl.key')))
-	# https://werkzeug.palletsprojects.com/en/1.0.x/serving/#generating-certificates
-	# openssl genrsa 1024 > ssl.key
-	# openssl req -new -x509 -nodes -sha1 -days 365 -key ssl.key > ssl.cert
+		app.run(host=args.host, port=args.port, debug=True, threaded=True,
+				ssl_context=(certfile, keyfile))
+
+# Generate certificates:
+# https://werkzeug.palletsprojects.com/en/1.0.x/serving/#generating-certificates
+# openssl genrsa 1024 > ssl.key
+# openssl req -new -x509 -nodes -sha1 -days 365 -key ssl.key > ssl.cert
 
