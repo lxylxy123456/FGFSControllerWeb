@@ -238,6 +238,7 @@
 	let rudder_active = {{ json.dumps(rudder_active) }};
 	let sending = false;
 	let send_interval = null;
+	let sensor_started = false;
 	let sending_count = 0;
 	const sending_limit = 10;
 	const sending_timeout = 10000;	// ms
@@ -320,6 +321,10 @@
 		gebi("Hdg").innerHTML = Math.round(hdg * 100) / 100;
 	}
 	function start_sensor() {
+		if (sensor_started) {
+			return;
+		}
+		sensor_started = true;
 		// https://medium.com/@andyking99/accessing-the-iphone-e146d18bb175
 		DeviceMotionEvent.requestPermission().then(response => {
 			if (response == 'granted') {
@@ -330,9 +335,6 @@
 	}
 	
 	function send() {
-		if (!sending) {
-			return;
-		}
 		update_flight_controls();
 		data = [];
 		for (let i = 0; i < aileron_duplicate; i++) {
@@ -396,9 +398,12 @@
 	function start_send() {
 		sending = !sending;
 		Send.innerHTML = sending ? "Stop" : "Send";
-		if (send_interval === null) {
-			send_interval = setInterval(send, 1000 / document.Frq);
+		if (sending) {
+			send_interval = setInterval(send, 1000 / gebi('Frq').value);
 			start_sensor();
+		} else {
+			clearInterval(send_interval);
+			send_interval = null;
 		}
 	}
   </script>
