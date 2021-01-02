@@ -16,13 +16,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from flask import Flask, request, send_from_directory, redirect
+from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_sockets import Sockets
-import re, jinja2, json, random, os, sys, struct, argparse
+import re, jinja2, json, random, os, sys, struct, argparse, functools
 from urllib import parse
 from socket import *
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 sockets = Sockets(app)
+DIR = os.path.dirname(os.path.realpath(__file__))
 
 @app.route('/')
 @app.route('/<int:port>')
@@ -60,13 +61,11 @@ def main_page(port=None):
 		pass
 	else:
 		raise ValueError
-	home_template = jinja2.Template(open(home_template_name).read())
-	return home_template.render(**dict_render)
+	return render_template('f.html', **dict_render)
 
 @app.route('/gateway')
 def gateway():
-	gate_template = jinja2.Template(open(gate_template_name).read())
-	return gate_template.render()
+	return render_template('g.html')
 
 @app.route('/vector.js')
 def vector_js():
@@ -95,12 +94,6 @@ def favicon():
 @app.errorhandler(404)
 def page_not_found(error):
 	return redirect("/gateway")
-
-DIR = os.path.dirname(os.path.realpath(__file__))
-home_template_name = os.path.join(DIR, 'f.html')
-home_template = jinja2.Template(open(home_template_name).read())
-gate_template_name = os.path.join(DIR, 'g.html')
-gate_template = jinja2.Template(open(gate_template_name).read())
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
