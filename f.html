@@ -48,6 +48,12 @@
 		float: left;
 		overflow: hidden;
 	}
+	.col-1 {
+		flex-grow: 0.5;
+		float: left;
+		overflow: hidden;
+		flex-basis: 1px;
+	}
 	.col-2 {
 		flex-grow: 1;
 		float: left;
@@ -96,7 +102,7 @@
 <body class="flex">
 
   <div class="row col-4">
-    <div class="flex col-flex">
+    <div class="flex col-3">
       <div class="row">
         <label>Address:</label>
         <input id="Addr" type="text" class="col-flex" size="16"
@@ -157,7 +163,7 @@
 
       <textarea id="answer" autocomplete="off"></textarea>
     </div>
-    <div class="flex col-3">
+    <div class="flex col-1">
       <a id="ThrottleLabel" class="text-center" href="/gateway">Throttle</a>
       <input id="Throttle" type="range" min="0" max="1" step="0.001" value="0"
               class="col-4" style="-webkit-transform:rotate(-90deg);" />
