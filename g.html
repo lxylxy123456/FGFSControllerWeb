@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+	FGFSControllerWeb - Using an iOS Device to Control FGFS
+	Copyright (C) 2021  Eric Li 李宵逸
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as
+	published by the Free Software Foundation, either version 3 of the
+	License, or (at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Affero General Public License for more details.
+
+	You should have received a copy of the GNU Affero General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width; initial-scale=1.0;
+                                  maximum-scale=1.0; user-scalable=no">
+  <title>FGFSControllerWeb</title>
+  <style>
+	* {
+		box-sizing: border-box;
+	}
+	html, body {
+		height: 100%;
+	}
+	body {
+		margin: 0px;
+		padding: 8px;
+		overflow: hidden;	/* disable scroll */
+	}
+  </style>
+</head>
+<body class="flex">
+  <p><a href="/">default</a></p>
+  <p><a href="/6789">6789 (split-ctl: everything other than rudder)</a></p>
+  <p><a href="/6788">6788 (split-ctl: rudder)</a></p>
+</body>
+
