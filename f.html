@@ -86,6 +86,10 @@
 	.text-center {
 		text-align: center;
 	}
+	a {
+		color: black;
+		text-decoration: none;
+	}
   </style>
   <script src="/vector.js"></script>
 </head>
@@ -112,8 +116,8 @@
           <span id="AileronLabel" onclick="trim('Aileron', 0);">Aileron</span>
           <input id="Aileron" type="range" min="-1" max="1" step="0.001"
                   value="0" class="col-flex" />
-          <input id="AileronFactor" type="text" value="1.0" size="5"
-                  onchange="update_value('aileron_factor', event);" />
+          <input id="AileronFactor" type="text" value="{{ aileron_factor }}"
+                  size="5" onchange="update_value('aileron_factor', event);" />
           <input id="AileronActive" type="checkbox" name="accurate" value="true"
                   autocomplete="off"
                   {% if aileron_active %}checked{% endif %}
@@ -125,8 +129,8 @@
           </span>
           <input type="range" min="-1" max="1" step="0.001" value="0"
                   class="col-flex" id="Elevator" />
-          <input id="ElevatorFactor" type="text" value="1.0" size="5"
-                  onchange="update_value('elevator_factor', event);" />
+          <input id="ElevatorFactor" type="text" value="{{ elevator_factor }}"
+                  size="5" onchange="update_value('elevator_factor', event);" />
           <input id="ElevatorActive" type="checkbox" name="accurate"
                   value="true" autocomplete="off"
                   {% if elevator_active %}checked{% endif %}
@@ -136,8 +140,8 @@
           <span id="RudderLabel" onclick="trim('Rudder', 2);">Rudder</span>
           <input type="range" min="-1" max="1" step="0.001" value="0"
                   class="col-4" id="Rudder" />
-          <input id="RudderFactor" type="text" value="1.0" size="5"
-                  onchange="update_value('rudder_factor', event);" />
+          <input id="RudderFactor" type="text" value="{{ rudder_factor }}"
+                  size="5" onchange="update_value('rudder_factor', event);" />
           <input id="RudderActive" type="checkbox" name="accurate" value="true"
                   autocomplete="off"
                   {% if rudder_active %}checked{% endif %}
@@ -154,7 +158,7 @@
       <textarea id="answer" autocomplete="off"></textarea>
     </div>
     <div class="flex col-3">
-      <span id="ThrottleLabel" class="text-center">Throttle</span>
+      <a id="ThrottleLabel" class="text-center" href="/gateway">Throttle</a>
       <input id="Throttle" type="range" min="0" max="1" step="0.001" value="0"
               class="col-4" style="-webkit-transform:rotate(-90deg);" />
     </div>
@@ -219,9 +223,9 @@
 	let ay =  0.2;
 	let az = -0.4;
 	let hdg = 150;
-	let aileron_factor = 1.0;
-	let elevator_factor = 1.0;
-	let rudder_factor = 1.5;
+	let aileron_factor = {{ aileron_factor }};
+	let elevator_factor = {{ elevator_factor }};
+	let rudder_factor = {{ rudder_factor }};
 	let aileron_zero = 0.0;
 	let elevator_zero = 0.0;
 	let rudder_zero = 0.0;

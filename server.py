@@ -26,7 +26,7 @@ sockets = Sockets(app)
 
 @app.route('/')
 @app.route('/<int:port>')
-def main_page(port=None) :
+def main_page(port=None):
 	dict_render = {
 		'aileron_duplicate': 1,
 		'elevator_duplicate': 1,
@@ -35,6 +35,9 @@ def main_page(port=None) :
 		'aileron_active': True,
 		'elevator_active': True,
 		'rudder_active': False,
+		'aileron_factor': 1.0,
+		'elevator_factor': 1.0,
+		'rudder_factor': 1.5,
 		'json': json,
 		'port': 6789,
 	}
@@ -50,6 +53,7 @@ def main_page(port=None) :
 			'rudder_duplicate': 0,
 			'aileron_active': False,
 			'rudder_active': False,
+			'elevator_factor': 2.0,
 			'port': port,
 		})
 	elif port is None:
@@ -59,12 +63,17 @@ def main_page(port=None) :
 	home_template = jinja2.Template(open(home_template_name).read())
 	return home_template.render(**dict_render)
 
+@app.route('/gateway')
+def gateway():
+	gate_template = jinja2.Template(open(gate_template_name).read())
+	return gate_template.render()
+
 @app.route('/vector.js')
-def vector_js() :
+def vector_js():
 	return send_from_directory(DIR, 'vector.js')
 
 @app.route('/proxy')
-def proxy_udp() :
+def proxy_udp():
 	addr = request.args['addr']
 	port = int(request.args['port'])
 	data = json.loads(request.args['data'])
@@ -80,18 +89,20 @@ def echo_socket(ws):
 		ws.send(message.upper())
 
 @app.route('/favicon.ico')
-def favicon() :
+def favicon():
 	return ''
 
 @app.errorhandler(404)
 def page_not_found(error):
-	return '404 (Not Found)'
+	return redirect("/gateway")
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 home_template_name = os.path.join(DIR, 'f.html')
 home_template = jinja2.Template(open(home_template_name).read())
+gate_template_name = os.path.join(DIR, 'g.html')
+gate_template = jinja2.Template(open(gate_template_name).read())
 
-if __name__ == '__main__' :
+if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--host', default='0.0.0.0')
 	parser.add_argument('--port', type=int, default=23456)
