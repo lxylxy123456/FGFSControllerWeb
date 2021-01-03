@@ -43,33 +43,27 @@
 		flex-direction: row;
 		
 	}
-	.col-flex {
-		flex-grow: 1;
+	.col-flex .col-1 .col-2 .col-3 .col-4 {
 		float: left;
 		overflow: hidden;
 	}
+	.col-flex {
+		flex-grow: 1;
+	}
 	.col-1 {
-		flex-grow: 0.5;
-		float: left;
-		overflow: hidden;
+		flex-grow: 1;
 		flex-basis: 1px;
 	}
 	.col-2 {
-		flex-grow: 1;
-		float: left;
-		overflow: hidden;
+		flex-grow: 2;
 		flex-basis: 2px;
 	}
 	.col-3 {
-		flex-grow: 1.5;
-		float: left;
-		overflow: hidden;
+		flex-grow: 3;
 		flex-basis: 3px;
 	}
 	.col-4 {
-		flex-grow: 2;
-		float: left;
-		overflow: hidden;
+		flex-grow: 4;
 		flex-basis: 4px;
 	}
 	textarea {
@@ -84,10 +78,6 @@
 	}
 	.gray {
 		color: gray;
-	}
-	span.border {
-		border: 1px solid gray;
-		/* white-space: nowrap; */
 	}
 	.text-center {
 		text-align: center;
