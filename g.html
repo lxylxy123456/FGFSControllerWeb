@@ -22,19 +22,6 @@
   <meta name="viewport" content="width=device-width; initial-scale=1.0;
                                   maximum-scale=1.0; user-scalable=no">
   <title>FGFSControllerWeb</title>
-  <style>
-	* {
-		box-sizing: border-box;
-	}
-	html, body {
-		height: 100%;
-	}
-	body {
-		margin: 0px;
-		padding: 8px;
-		overflow: hidden;	/* disable scroll */
-	}
-  </style>
 </head>
 <body class="flex">
   <p>
@@ -43,7 +30,10 @@
     </a>
   </p>
   <p><a href="/">default</a></p>
+  <p style="margin-left: 2em"><a href="/?ts=1">throttle-scroll</a></p>
   <p><a href="/6789">6789 (split-ctl: everything other than rudder)</a></p>
+  <p style="margin-left: 2em"><a href="/6789?ts=1">throttle-scroll</a></p>
   <p><a href="/6788">6788 (split-ctl: rudder)</a></p>
+  <p style="margin-left: 2em"><a href="/6788?ts=1">throttle-scroll</a></p>
 </body>
 

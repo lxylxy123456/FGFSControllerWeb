@@ -96,6 +96,10 @@
 		color: black;
 		text-decoration: none;
 	}
+	.throttle-scale {
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
   </style>
   <script src="/vector.js"></script>
 </head>
@@ -165,8 +169,19 @@
     </div>
     <div class="flex col-1">
       <a id="ThrottleLabel" class="text-center" href="/gateway">Throttle</a>
+      {% if throttle_scroll %}
+      <div class="col-4 row">
+        <div class="col-1 flex" style="flex-direction: column;
+                                        align-items: flex-end;
+                                        justify-content: center">
+          -&gt;&nbsp;
+        </div>
+        <div id="ThrottleScroll" class="col-3" style="overflow: scroll"></div>
+      </div>
+      {% else %}
       <input id="Throttle" type="range" min="0" max="1" step="0.001" value="0"
               class="col-4" style="-webkit-transform:rotate(-90deg);" />
+      {% endif %}
     </div>
   </div>
 
@@ -205,11 +220,34 @@
 		return document.getElementById(id);
 	}
 
+	{% if throttle_scroll %}
+	for (let i = 0; i <= 100; i++) {
+		let p = document.createElement('p');
+		p.classList.add('throttle-scale');
+		p.id = 'ThrottleScale' + i;
+		p.innerText = i + '%';
+		gebi('ThrottleScroll').appendChild(p);
+	}
+	function get_throttle() {
+		let sc = gebi('ThrottleScroll');
+		return sc.scrollTop / (sc.scrollHeight - sc.clientHeight);
+	}
+	{% endif %}
+
 	function resize_event() {
 		gebi("AileronLabel").style['flex-basis'] = (
 			gebi("ElevatorLabel").scrollWidth + 'px');
 		gebi("RudderLabel").style['flex-basis'] = (
 			gebi("ElevatorLabel").scrollWidth + 'px');
+		{% if throttle_scroll %}
+		let sc_height = gebi('ThrottleScroll').clientHeight;
+		let p0_height = gebi('ThrottleScale0').clientHeight;
+		let p100_height = gebi('ThrottleScale100').clientHeight;
+		gebi('ThrottleScale0').style['margin-top'] = (
+			(sc_height / 2 - p0_height / 2) + 'px');
+		gebi('ThrottleScale100').style['margin-bottom'] = (
+			(sc_height / 2 - p100_height / 2) + 'px');
+		{% endif %}
 	}
 	window.onresize = resize_event;
 	resize_event();
@@ -310,11 +348,15 @@
 		} else {
 			rudder = Number.parseFloat(Rudder.value);
 		}
+		{% if throttle_scroll %}
+		throttle = get_throttle();
+		{% else %}
 		throttle = Number.parseFloat(Throttle.value);
+		{% endif %}
 		AileronValue.innerHTML = Aileron.value;
 		ElevatorValue.innerHTML = Elevator.value;
 		RudderValue.innerHTML = Rudder.value;
-		ThrottleValue.innerHTML = Throttle.value;
+		ThrottleValue.innerHTML = throttle;
 	}
 
 	function update_motion(event) {

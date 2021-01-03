@@ -41,6 +41,7 @@ def main_page(port=None):
 		'rudder_factor': 1.5,
 		'json': json,
 		'port': 6789,
+		'throttle_scroll': request.args.get('ts'),
 	}
 	if port == 6789:
 		dict_render.update({
