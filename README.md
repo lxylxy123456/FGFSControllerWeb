@@ -1,4 +1,4 @@
-# FGFS-Controller
+# FGFSControllerWeb
 
 A website that allows an iPhone to controls a flight simulator
  ([FGFS](https://www.flightgear.org/)) on a computer.
