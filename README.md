@@ -15,3 +15,6 @@ A website that allows an iPhone to controls a flight simulator
 ## TODO
 * Debug web socket on safari.
 
+## Demo
+[![YxqSxod6d7o](http://img.youtube.com/vi/YxqSxod6d7o/0.jpg)](http://www.youtube.com/watch?v=YxqSxod6d7o)
+
