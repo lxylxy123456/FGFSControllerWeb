@@ -18,3 +18,15 @@ A website that allows an iPhone to controls a flight simulator
 ## Demo
 [![YxqSxod6d7o](http://img.youtube.com/vi/YxqSxod6d7o/0.jpg)](http://www.youtube.com/watch?v=YxqSxod6d7o)
 
+Screenshot:
+
+![FGFSControllerWeb1.png](https://lxylxy123456.github.io/image/FGFSControllerWeb1.png)
+
+A new throttle control UI:
+
+![FGFSControllerWeb2.png](https://lxylxy123456.github.io/image/FGFSControllerWeb2.png)
+
+Receiver (made with pygame):
+
+![FGFSControllerWeb3.png](https://lxylxy123456.github.io/image/FGFSControllerWeb3.png)
+
